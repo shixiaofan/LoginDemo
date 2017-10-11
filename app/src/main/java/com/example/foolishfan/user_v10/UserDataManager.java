@@ -59,24 +59,22 @@ public class UserDataManager {             //用户数据管理类
         mDatabaseHelper.close();
     }
     //添加新用户，即注册
-    public long insertUserData(UserData userData) {
-        String userName=userData.getUserName();
-        String userPwd=userData.getUserPwd();
+    public long insertUserData(User user) {
+        String userName= user.getUserName();
+        String userPwd= user.getUserPwd();
         ContentValues values = new ContentValues();
         values.put(USER_NAME, userName);
         values.put(USER_PWD, userPwd);
         return mSQLiteDatabase.insert(TABLE_NAME, ID, values);
     }
     //更新用户信息，如修改密码
-    public boolean updateUserData(UserData userData) {
-        //int id = userData.getUserId();
-        String userName = userData.getUserName();
-        String userPwd = userData.getUserPwd();
+    public boolean updateUserData(User user) {
+        String userName = user.getUserName();
+        String userPwd = user.getUserPwd();
         ContentValues values = new ContentValues();
-        values.put(USER_NAME, userName);
         values.put(USER_PWD, userPwd);
-        return mSQLiteDatabase.update(TABLE_NAME, values,null, null) > 0;
-        //return mSQLiteDatabase.update(TABLE_NAME, values, ID + "=" + id, null) > 0;
+        String where = USER_NAME + "=" + "=\"" + userName + "\"";
+        return mSQLiteDatabase.update(TABLE_NAME, values,where, null) > 0;
     }
     //
     public Cursor fetchUserData(int id) throws SQLException {
@@ -98,7 +96,7 @@ public class UserDataManager {             //用户数据管理类
     }
     //根据用户名注销
     public boolean deleteUserDatabyname(String name) {
-        return mSQLiteDatabase.delete(TABLE_NAME, USER_NAME + "=" + name, null) > 0;
+        return mSQLiteDatabase.delete(TABLE_NAME, USER_NAME+"=?", new String[]{name}) > 0;
     }
     //删除所有用户
     public boolean deleteAllUserDatas() {
@@ -124,7 +122,7 @@ public class UserDataManager {             //用户数据管理类
     public int findUserByName(String userName){
         Log.i(TAG,"findUserByName , userName="+userName);
         int result=0;
-        Cursor mCursor=mSQLiteDatabase.query(TABLE_NAME, null, USER_NAME+"="+userName, null, null, null, null);
+        Cursor  mCursor=mSQLiteDatabase.query(TABLE_NAME, null, USER_NAME+"=?", new String[]{userName}, null, null, null);
         if(mCursor!=null){
             result=mCursor.getCount();
             mCursor.close();
@@ -136,8 +134,8 @@ public class UserDataManager {             //用户数据管理类
     public int findUserByNameAndPwd(String userName,String pwd){
         Log.i(TAG,"findUserByNameAndPwd");
         int result=0;
-        Cursor mCursor=mSQLiteDatabase.query(TABLE_NAME, null, USER_NAME+"="+userName+" and "+USER_PWD+"="+pwd,
-                null, null, null, null);
+     Cursor mCursor=mSQLiteDatabase.query(TABLE_NAME, null, USER_NAME+"=?"+" and "+USER_PWD+"=?",
+             new String[]{userName,pwd}, null, null, null);
         if(mCursor!=null){
             result=mCursor.getCount();
             mCursor.close();

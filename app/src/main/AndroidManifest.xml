@@ -14,7 +14,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".User"
+        <activity android:name=".LoginSuccess"
             android:label="个人中心"/>
         <activity android:name=".Register"
             android:label="用户注册"/>

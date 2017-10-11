@@ -1,13 +1,11 @@
 package com.example.foolishfan.user_v10;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 public class Resetpwd extends AppCompatActivity {
@@ -22,24 +20,21 @@ public class Resetpwd extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.resetpwd);
-//        layout.setOrientation(RelativeLayout.VERTICAL).
+        initView();
+    }
+        public void initView(){
         mAccount = (EditText) findViewById(R.id.resetpwd_edit_name);
         mPwd_old = (EditText) findViewById(R.id.resetpwd_edit_pwd_old);
         mPwd_new = (EditText) findViewById(R.id.resetpwd_edit_pwd_new);
         mPwdCheck = (EditText) findViewById(R.id.resetpwd_edit_pwd_check);
-
         mSureButton = (Button) findViewById(R.id.resetpwd_btn_sure);
         mCancelButton = (Button) findViewById(R.id.resetpwd_btn_cancel);
-
         mSureButton.setOnClickListener(m_resetpwd_Listener);      //注册界面两个按钮的监听事件
         mCancelButton.setOnClickListener(m_resetpwd_Listener);
-        //mCancelButton.setOnClickListener(m_resetpwd_Listener);
-
         if (mUserDataManager == null) {
             mUserDataManager = new UserDataManager(this);
             mUserDataManager.openDataBase();                              //建立本地数据库
         }
-
     }
     View.OnClickListener m_resetpwd_Listener = new View.OnClickListener() {    //不同按钮按下的监听事件选择
         public void onClick(View v) {
@@ -67,7 +62,7 @@ public class Resetpwd extends AppCompatActivity {
                     Toast.makeText(this, getString(R.string.pwd_not_the_same),Toast.LENGTH_SHORT).show();
                     return ;
                 } else {
-                    UserData mUser = new UserData(userName, userPwd_new);
+                    User mUser = new User(userName, userPwd_new);
                     mUserDataManager.openDataBase();
                     boolean flag = mUserDataManager.updateUserData(mUser);
                     if (flag == false) {

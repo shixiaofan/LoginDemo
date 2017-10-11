@@ -1,26 +1,32 @@
 package com.example.foolishfan.user_v10;
-
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-
-public class User extends AppCompatActivity {
-    private Button mReturnButton;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.user);
-        mReturnButton = (Button)findViewById(R.id.returnback);
-
+public class User {
+    private String userName;                  //用户名
+    private String userPwd;                   //用户密码
+    private int userId;                       //用户ID号
+    public int pwdresetFlag=0;
+    public String getUserName() {             //获取用户名
+        return userName;
     }
-    public void back_to_login(View view) {
-        //setContentView(R.layout.login);
-        Intent intent3 = new Intent(User.this,Login.class) ;
-        startActivity(intent3);
-        finish();
-
+    public void setUserName(String userName) {  //输入用户名
+        this.userName = userName;
     }
+    public String getUserPwd() {                //获取用户密码
+        return userPwd;
+    }
+    public void setUserPwd(String userPwd) {
+        this.userPwd = userPwd;
+    }
+    public int getUserId() {                   //获取用户ID号
+        return userId;
+    }
+    public void setUserId(int userId) {       //设置用户ID号
+        this.userId = userId;
+    }
+
+    public User(String userName, String userPwd) {  //这里只采用用户名和密码
+        super();
+        this.userName = userName;
+        this.userPwd = userPwd;
+    }
+
 }

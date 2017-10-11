@@ -47,18 +47,16 @@ public class Login extends Activity {                 //登录界面活动
         String pwd =login_sp.getString("PASSWORD", "");
         boolean choseRemember =login_sp.getBoolean("mRememberCheck", false);
         boolean choseAutoLogin =login_sp.getBoolean("mAutologinCheck", false);
+        mRegisterButton.setOnClickListener(mListener);                      //采用OnClickListener方法设置不同按钮按下之后的监听事件
+        mLoginButton.setOnClickListener(mListener);
+        mCancleButton.setOnClickListener(mListener);
+        mChangepwdText.setOnClickListener(mListener);
         //如果上次选了记住密码，那进入登录页面也自动勾选记住密码，并填上用户名和密码
         if(choseRemember){
             mAccount.setText(name);
             mPwd.setText(pwd);
             mRememberCheck.setChecked(true);
         }
-
-        mRegisterButton.setOnClickListener(mListener);                      //采用OnClickListener方法设置不同按钮按下之后的监听事件
-        mLoginButton.setOnClickListener(mListener);
-        mCancleButton.setOnClickListener(mListener);
-        mChangepwdText.setOnClickListener(mListener);
-
         if (mUserDataManager == null) {
             mUserDataManager = new UserDataManager(this);
             mUserDataManager.openDataBase();                              //建立本地数据库
@@ -78,7 +76,7 @@ public class Login extends Activity {                 //登录界面活动
                 case R.id.login_btn_cancle:                             //登录界面的注销按钮
                     cancel();
                     break;
-                case R.id.login_text_change_pwd:                             //登录界面的注销按钮
+                case R.id.login_text_change_pwd:                             //登录界面的修改密码
                     Intent intent_Login_to_reset = new Intent(Login.this,Resetpwd.class) ;    //切换Login Activity至User Activity
                     startActivity(intent_Login_to_reset);
                     finish();
@@ -106,7 +104,7 @@ public class Login extends Activity {                 //登录界面活动
                 }
                 editor.commit();
 
-                Intent intent = new Intent(Login.this,User.class) ;    //切换Login Activity至User Activity
+                Intent intent = new Intent(Login.this,LoginSuccess.class) ;    //切换Login Activity至登录成功页面
                 startActivity(intent);
                 finish();
                 Toast.makeText(this, getString(R.string.login_success),Toast.LENGTH_SHORT).show();//登录成功提示
@@ -121,8 +119,6 @@ public class Login extends Activity {                 //登录界面活动
             String userPwd = mPwd.getText().toString().trim();
             int result=mUserDataManager.findUserByNameAndPwd(userName, userPwd);
             if(result==1){                                             //返回1说明用户名和密码均正确
-//                Intent intent = new Intent(Login.this,User.class) ;    //切换Login Activity至User Activity
-//                startActivity(intent);
                 Toast.makeText(this, getString(R.string.cancel_success),Toast.LENGTH_SHORT).show();//登录成功提示
                 mPwd.setText("");
                 mAccount.setText("");
